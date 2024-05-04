@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Resturants{
+public class Restaurant{
     private int id;
     public String name;
 
@@ -25,7 +25,7 @@ public class Resturants{
     }
 
 
-    public Resturants(int id, String name, String location){
+    public Restaurant(int id, String name, String location){
         this.id = id;
         this.name = name;
         this.location = location;
