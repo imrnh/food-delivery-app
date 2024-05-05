@@ -15,8 +15,6 @@ public class Main {
 
         windowManager();
 
-        System.out.println("Recalling the main class");
-
         frame.setSize(GUIConfig.WINDOW_WIDTH,GUIConfig.WINDOW_HEIGHT);//400 width and 500 height
         frame.setLayout(null);//using no layout managers
         frame.setVisible(true);//making the frame visible
