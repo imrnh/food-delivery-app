@@ -3,7 +3,12 @@ public abstract class User{
     private String name;
     private String email;
     private String password;
-    private int userType; //1 -> customer, 2-> driver, 3->administrator. 
+
+    public int getUserType() {
+        return userType;
+    }
+
+    private int userType; //1 -> customer, 2-> driver, 3->administrator.
 
 
     public void convertToCustomer(){
@@ -34,14 +39,11 @@ public abstract class User{
         this.name = name;
         this.email = email;
         this.password = password;
+        this.userType = 1;
     }
 
     boolean login(String email, String password){
-        if (this.email.equals(email) && this.password.equals(password)){
-            return false;
-        }
-
-        return true;
+        return !this.email.equals(email) || !this.password.equals(password);
     }
 
     void deleteUser(String email, String password){

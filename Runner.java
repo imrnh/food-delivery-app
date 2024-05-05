@@ -52,15 +52,17 @@ public class Runner{
         newUser.register(currMaxId + 1, name, email, password);
         this.users.add(newUser);
 
+        SessionManager.user = newUser;
+
         return "User created successfully.";
     }
 
-    public boolean loginUser(String email, String password) {
+    public User loginUser(String email, String password) {
         for (User usr : users) {
             if (usr.getEmail().equals(email) && usr.getPassword().equals(password)) {
-                return true;
+                return usr;
             }
         }
-        return false ;
+        return null;
     }
 }

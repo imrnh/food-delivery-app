@@ -7,7 +7,6 @@ import javax.swing.*;
 
 public class LoginPage {
 
-
     public List<JComponent> getLoginScreen(){
         List<JComponent> components = new ArrayList<JComponent>();
 

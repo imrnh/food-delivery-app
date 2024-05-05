@@ -15,6 +15,4 @@ public class Customer extends User{
             this.credit = 0;
         }
     }
-
-    
 }

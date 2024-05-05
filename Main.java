@@ -1,10 +1,9 @@
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.*;
 import javax.swing.*;
 
 public class Main {
-    static boolean isLoggedIn = false;
+    static boolean isLoggedIn = true;
     static JFrame frame;
     static Runner runner;
     static User user;
@@ -26,8 +25,13 @@ public class Main {
 
     private static void windowManager(){
 
-        if (isLoggedIn){
-
+        if (isLoggedIn && user != null){
+            if (user.getUserType() == 1){
+                customerScreenManager();
+            }
+            else if (user.getUserType() == 2){
+                driverScreenManager();
+            }
         }
         else{
             authManger();
@@ -105,6 +109,7 @@ public class Main {
                     frame.remove(component);
                 }
                 frame.repaint();
+                user = SessionManager.user;
 
                 isLoggedIn = true;
                 windowManager();
@@ -119,9 +124,9 @@ public class Main {
                 String email  = ((JTextField)loginComponents.get(3)).getText();
                 String password = ((JTextField) loginComponents.get(4)).getText();
 
-                boolean userValidated = runner.loginUser(email, password);
+                User validatedUser = runner.loginUser(email, password);
 
-                if(userValidated){
+                if(validatedUser != null){
                     //remove all login components.
                     for (JComponent component : loginComponents) {
                         frame.remove(component);
@@ -130,6 +135,7 @@ public class Main {
 
                     isLoggedIn = true;
                     windowManager();
+                    SessionManager.user = validatedUser;
                 }
                 else{
                     JOptionPane.showMessageDialog(frame, "Invalid username or password");
@@ -141,7 +147,13 @@ public class Main {
 
     //Customer pages
     private static void customerScreenManager(){
-        //pass
+        Homepage homepage = new Homepage();
+        java.util.List<JComponent> homepageComponents = homepage.getHomepage();
+
+        for (JComponent component : homepageComponents) {
+            frame.add(component);
+        }
+        frame.repaint();
     }
 
     //Driver pages
