@@ -7,15 +7,15 @@ public class Runner{
 
     public void createRestaurants(){
         Restaurant restaurants1 = new Restaurant(1, "Elements - Global Dining at InterContinental Dhaka", "1 Minto Road, Dhaka City 1000 Bangladeshh");
-        Restaurant restaurants2 = new Restaurant(1, "Domino's Pizza", "Dhanmondhi, Dhaka, Bangladesh");
-        Restaurant restaurants3 = new Restaurant(1, "Aqua Deck at InterContinental Dhaka", "1 Minto Road, Dhaka City 1000 Bangladesh");
-        Restaurant restaurants4 = new Restaurant(1, "Le Méridien Dhaka", "79/A Commercial Area, Airport Road Ninkunja 2, Dhaka City 1229 Bangladesh");
-        Restaurant restaurants5 = new Restaurant(1, "Olea Turkish Restaurant at Le Méridien Dhaka", "Airport Road 79/A Commercial Area, Le Méridien Dhaka, Dhaka City 1229 Bangladesh");
-        Restaurant restaurants6 = new Restaurant(1, "The Garden Kitchen at Sheraton Dhaka", "44 Kemal Ataturk Avenue Level 14, Sheraton, Dhaka City 1213 Bangladesh");
-        Restaurant restaurants7 = new Restaurant(1, "Risotto by Sarina", "17 Plot #27 Road Banani C/A, Dhaka City 1213 Bangladesh");
-        Restaurant restaurants8 = new Restaurant(1, "Summer fields by Sarina", "# 17 Plot #27 Road Hotel Sarina, Banani C/A, Dhaka City 1213 Bangladesh");
-        Restaurant restaurants9 = new Restaurant(1, "The Amber Room at InterContinental Dhaka", "1 Minto Road InterContinental Dhaka, Dhaka City 1000 Bangladesh");
-        Restaurant restaurants10 = new Restaurant(1, "Cafe Social at InterContinental Dhaka", "1 Minto Road InterContinental Dhaka, An IHG Hotel, Dhaka City 1000 Bangladesh");
+        Restaurant restaurants2 = new Restaurant(2, "Domino's Pizza", "Dhanmondhi, Dhaka, Bangladesh");
+        Restaurant restaurants3 = new Restaurant(3, "Aqua Deck at InterContinental Dhaka", "1 Minto Road, Dhaka City 1000 Bangladesh");
+        Restaurant restaurants4 = new Restaurant(4, "Le Méridien Dhaka", "79/A Commercial Area, Airport Road Ninkunja 2, Dhaka City 1229 Bangladesh");
+        Restaurant restaurants5 = new Restaurant(5, "Olea Turkish Restaurant at Le Méridien Dhaka", "Airport Road 79/A Commercial Area, Le Méridien Dhaka, Dhaka City 1229 Bangladesh");
+        Restaurant restaurants6 = new Restaurant(6, "The Garden Kitchen at Sheraton Dhaka", "44 Kemal Ataturk Avenue Level 14, Sheraton, Dhaka City 1213 Bangladesh");
+        Restaurant restaurants7 = new Restaurant( 7, "Risotto by Sarina", "17 Plot #27 Road Banani C/A, Dhaka City 1213 Bangladesh");
+        Restaurant restaurants8 = new Restaurant(8, "Summer fields by Sarina", "# 17 Plot #27 Road Hotel Sarina, Banani C/A, Dhaka City 1213 Bangladesh");
+        Restaurant restaurants9 = new Restaurant(9, "The Amber Room at InterContinental Dhaka", "1 Minto Road InterContinental Dhaka, Dhaka City 1000 Bangladesh");
+        Restaurant restaurants10 = new Restaurant(10, "Cafe Social at InterContinental Dhaka", "1 Minto Road InterContinental Dhaka, An IHG Hotel, Dhaka City 1000 Bangladesh");
 
 
         restaurants.add(restaurants1);

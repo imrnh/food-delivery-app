@@ -1,6 +1,9 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer extends User{
     double credit;
-    // List<Order> orders;
+     List<Order> orders = new ArrayList<>();
 
 
     void addCredit(double newCredit){
