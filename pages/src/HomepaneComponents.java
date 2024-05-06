@@ -23,15 +23,15 @@ public class HomepaneComponents {
         nameLabel.setBounds(x + 15, y + 150, 150, 25);
         nameLabel.setFont(nameLabel.getFont().deriveFont(17f));
 
-        JLabel priceLabel = new JLabel(String.valueOf(food.price));
+        JLabel priceLabel = new JLabel(String.valueOf(food.price) + " $");
         priceLabel.setBounds(x + 15, y + 175, 100, 25);
         priceLabel.setFont(nameLabel.getFont().deriveFont(12f));
 
         JLabel ratingLabel = new JLabel(String.valueOf(rating));
         JLabel ratingImageLabel = new JLabel(new ImageIcon("icons/star_8x.png"));
 
-        ratingLabel.setBounds(x + 110, y + 175, 20, 25);
-        ratingImageLabel.setBounds(x + 130, y + 175, 20, 25);
+        ratingLabel.setBounds(x + 110, y + 175, 30, 25);
+        ratingImageLabel.setBounds(x + 136, y + 175,  15, 25);
         ratingLabel.setFont(nameLabel.getFont().deriveFont(12f));
 
 

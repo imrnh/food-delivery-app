@@ -12,6 +12,7 @@ public class Main {
     public static void main(String[] args) {
         frame =new JFrame();
         runner = new Runner();
+        SessionManager.frame = frame;
 
         windowManager();
 
@@ -22,6 +23,12 @@ public class Main {
 
 
     private static void windowManager(){
+
+        //dummy code. to stop signup page all the time.
+        user = new Customer();
+        user.register(1000, "Imran Hossen", "m@gm", "pass");
+        SessionManager.user = user;
+
 
         if (isLoggedIn && user != null){
             if (user.getUserType() == 1){
@@ -145,8 +152,11 @@ public class Main {
 
     //Customer pages
     private static void customerScreenManager(){
-        Homepage homepage = new Homepage();
-        java.util.List<JComponent> homepageComponents = homepage.getHomepage();
+        //create all the restaurants in memory.
+        runner.createRestaurants();
+
+        Homepage homepage = new Homepage(frame);
+        java.util.List<JComponent> homepageComponents = homepage.getHomepage(runner.foods, runner.restaurants);
 
         for (JComponent component : homepageComponents) {
             frame.add(component);

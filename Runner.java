@@ -4,32 +4,49 @@ import java.util.*;
 public class Runner{
     public List<User> users = new ArrayList<User>();
     public List<Restaurant> restaurants = new ArrayList<>();
+    public List<Food> foods = new ArrayList<>();
+
+
+    public void createFoods(){
+        foods.add(new Food(1, "Food 1", 9.59, "images/f1.png"));
+        foods.add(new Food(2, "Food 2", 13.00, "images/f2.png"));
+        foods.add(new Food(3, "Food 3", 12.55, "images/f3.png"));
+        foods.add(new Food(4, "Food 4", 11.09, "images/f4.png"));
+        foods.add(new Food(5, "Food 5", 12.33, "images/f5.png"));
+        foods.add(new Food(6, "Food 6", 5.99, "images/f6.png"));
+        foods.add(new Food(7, "Food 7", 3.99, "images/f7.png"));
+        foods.add(new Food(8, "Food 8", 50.00, "images/f8.png"));
+        foods.add(new Food(9, "Food 9", 50.49, "images/f9.png"));
+    }
+
 
     public void createRestaurants(){
-        Restaurant restaurants1 = new Restaurant(1, "Elements - Global Dining at InterContinental Dhaka", "1 Minto Road, Dhaka City 1000 Bangladeshh");
-        Restaurant restaurants2 = new Restaurant(2, "Domino's Pizza", "Dhanmondhi, Dhaka, Bangladesh");
-        Restaurant restaurants3 = new Restaurant(3, "Aqua Deck at InterContinental Dhaka", "1 Minto Road, Dhaka City 1000 Bangladesh");
-        Restaurant restaurants4 = new Restaurant(4, "Le Méridien Dhaka", "79/A Commercial Area, Airport Road Ninkunja 2, Dhaka City 1229 Bangladesh");
-        Restaurant restaurants5 = new Restaurant(5, "Olea Turkish Restaurant at Le Méridien Dhaka", "Airport Road 79/A Commercial Area, Le Méridien Dhaka, Dhaka City 1229 Bangladesh");
-        Restaurant restaurants6 = new Restaurant(6, "The Garden Kitchen at Sheraton Dhaka", "44 Kemal Ataturk Avenue Level 14, Sheraton, Dhaka City 1213 Bangladesh");
-        Restaurant restaurants7 = new Restaurant( 7, "Risotto by Sarina", "17 Plot #27 Road Banani C/A, Dhaka City 1213 Bangladesh");
-        Restaurant restaurants8 = new Restaurant(8, "Summer fields by Sarina", "# 17 Plot #27 Road Hotel Sarina, Banani C/A, Dhaka City 1213 Bangladesh");
-        Restaurant restaurants9 = new Restaurant(9, "The Amber Room at InterContinental Dhaka", "1 Minto Road InterContinental Dhaka, Dhaka City 1000 Bangladesh");
-        Restaurant restaurants10 = new Restaurant(10, "Cafe Social at InterContinental Dhaka", "1 Minto Road InterContinental Dhaka, An IHG Hotel, Dhaka City 1000 Bangladesh");
 
+        if (foods.isEmpty()){
+            createFoods();
+        }
+
+        Restaurant restaurants1 = new Restaurant(1, "Elements - Global Dining at InterContinental Dhaka", "1 Minto Road, Dhaka City 1000 Bangladeshh");
+        Restaurant restaurants2 = new Restaurant(4, "Le Méridien Dhaka", "79/A Commercial Area, Airport Road Ninkunja 2, Dhaka City 1229 Bangladesh");
+        Restaurant restaurants3 = new Restaurant(3, "Aqua Deck at InterContinental Dhaka", "1 Minto Road, Dhaka City 1000 Bangladesh");
+
+        restaurants1.addFood(foods.getFirst());
+        restaurants1.addFood(foods.get(1));
+        restaurants1.addFood(foods.get(2));
+
+        restaurants2.addFood(foods.get(3));
+        restaurants2.addFood(foods.get(4));
+        restaurants2.addFood(foods.get(5));
+
+        restaurants3.addFood(foods.get(6));
+        restaurants3.addFood(foods.get(7));
+        restaurants3.addFood(foods.get(8));
 
         restaurants.add(restaurants1);
         restaurants.add(restaurants2);
         restaurants.add(restaurants3);
-        restaurants.add(restaurants4);
-        restaurants.add(restaurants5);
-        restaurants.add(restaurants6);
-        restaurants.add(restaurants7);
-        restaurants.add(restaurants8);
-        restaurants.add(restaurants9);
-        restaurants.add(restaurants10);
-
     }
+
 
     public String createUser(String name, String email, String password){
         //create a user. Default type is customer <- as per specified in the assigment 3 document.
