@@ -16,7 +16,6 @@ public class Runner{
         foods.add(new Food(6, "Food 6", 5.99, "images/f6.png"));
         foods.add(new Food(7, "Food 7", 3.99, "images/f7.png"));
         foods.add(new Food(8, "Food 8", 50.00, "images/f8.png"));
-        foods.add(new Food(9, "Food 9", 50.49, "images/f9.png"));
     }
 
 
@@ -26,7 +25,7 @@ public class Runner{
             createFoods();
         }
 
-        Restaurant restaurants1 = new Restaurant(1, "Elements - Global Dining at InterContinental Dhaka", "1 Minto Road, Dhaka City 1000 Bangladeshh");
+        Restaurant restaurants1 = new Restaurant(1, "Global Dining at InterContinental Dhaka", "1 Minto Road, Dhaka City 1000 Bangladeshh");
         Restaurant restaurants2 = new Restaurant(4, "Le Méridien Dhaka", "79/A Commercial Area, Airport Road Ninkunja 2, Dhaka City 1229 Bangladesh");
         Restaurant restaurants3 = new Restaurant(3, "Aqua Deck at InterContinental Dhaka", "1 Minto Road, Dhaka City 1000 Bangladesh");
 
@@ -40,7 +39,6 @@ public class Runner{
 
         restaurants3.addFood(foods.get(6));
         restaurants3.addFood(foods.get(7));
-        restaurants3.addFood(foods.get(8));
 
         restaurants.add(restaurants1);
         restaurants.add(restaurants2);

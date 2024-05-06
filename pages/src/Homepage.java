@@ -15,6 +15,8 @@ public class Homepage {
     private List<List<JComponent>> foodsComponents = new ArrayList<>();
     private List<List<JComponent>> restaurantComponents = new ArrayList<>();
 
+    private int perRowFoodCardLimit = 8;
+
     String searchFilteringText = "";
 
     public Homepage(JFrame frame){
@@ -30,13 +32,13 @@ public class Homepage {
 
         // Iterate over all the foods
         for (int i = 0; i < this.foods.size(); i++) {
-            List<JComponent> retrievedFoodComp = HomepaneComponents.getFoodCard(foods.get(i), 150 * (i + 1) + (i * 20), 280);
+            List<JComponent> retrievedFoodComp = HomepaneComponents.getFoodCard(foods.get(i), this.foodCardXPointCalc(i), this.foodCardYPointCalc(i));
             foodsComponents.add(retrievedFoodComp);
         }
 
         // Iterate over all the foods
         for (int i = 0; i < this.restaurants.size(); i++) {
-            List<JComponent> retrievedRest = HomepaneComponents.getFoodCard(foods.get(i), 150 * (i + 1) + (i * 20), 280);
+            List<JComponent> retrievedRest = HomepaneComponents.getRestaurantCard(restaurants.get(i), this.restaurantCardXPointCalc(i), this.restaurantCardYPointCalc(i));
             restaurantComponents.add(retrievedRest);
         }
 
@@ -195,14 +197,18 @@ public class Homepage {
         foodTitleLabel.setFont(foodTitleLabel.getFont().deriveFont(20f));
         foodTitleLabel.setForeground(Color.black);
         foodTitleLabel.setBounds(150, 230, 200, 40);
-
-        JLabel showAllFoodButton = new JLabel("show all >");
-        showAllFoodButton.setBounds(GUIConfig.WINDOW_WIDTH-250, 230, 100, 40);
-        showAllFoodButton.setForeground(Color.green);
-
         homeViewPane.add(foodTitleLabel);
-        homeViewPane.add(showAllFoodButton);
+        addFoodToHomepane(homeViewPane);
 
+
+        /*
+        * Restaurant view
+        * */
+        JLabel restaurantTitle = new JLabel("Restaurant");
+        restaurantTitle.setFont(restaurantTitle.getFont().deriveFont(20f));
+        restaurantTitle.setForeground(Color.black);
+        restaurantTitle.setBounds(150, 550, 200, 40);
+        homeViewPane.add(restaurantTitle);
         addFoodToHomepane(homeViewPane);
 
         searchButton.addMouseListener(new MouseAdapter() {
@@ -212,7 +218,6 @@ public class Homepage {
                 searchFilteringText = searchField.getText();
 
                 removeAllFoodFromHomepane();
-
                 addFoodToHomepane(homeViewPane);
 
                 windowFrame.revalidate();
@@ -229,9 +234,14 @@ public class Homepage {
                 windowFrame.remove(foodC);
             }
         }
+
+        for(List<JComponent> restCamp : restaurantComponents){
+            for(JComponent restC : restCamp){
+                windowFrame.remove(restC);
+            }
+        }
     }
     private void addFoodToHomepane(List<JComponent> homeViewPane) {
-        System.out.println("Adding again");
         if (searchFilteringText.isEmpty()) {
             // If no search text, add all food components
             for (List<JComponent> foodComp : foodsComponents) {
@@ -239,6 +249,13 @@ public class Homepage {
                     windowFrame.add(foodC);
                 }
             }
+
+            for (List<JComponent> restComp : restaurantComponents) {
+                for (JComponent restC : restComp) {
+                    windowFrame.add(restC);
+                }
+            }
+
         } else {
             // Otherwise, add only the food components that match the search text
             for (int i = 0; i < foods.size(); i++) {
@@ -248,6 +265,38 @@ public class Homepage {
                     }
                 }
             }
+
+            for (int i = 0; i < restaurants.size(); i++) {
+                if (restaurants.get(i).name.contains(searchFilteringText)) {
+                    for (JComponent resC : restaurantComponents.get(i)) {
+                        windowFrame.add(resC);
+                    }
+                }
+            }
         }
+    }
+
+    private int foodCardXPointCalc(int i){
+        if (i > perRowFoodCardLimit-1){
+            i = i-perRowFoodCardLimit;
+        }
+        return  150 * (i + 1) + (i * 20);
+    }
+
+    private int restaurantCardXPointCalc(int i){
+        return  150 +  (450 * i) + (i * 20);
+    }
+
+    private int foodCardYPointCalc(int i){
+        if (i > perRowFoodCardLimit-1){
+            return 280 *  (1 + (i / perRowFoodCardLimit)) - (50 * (i/perRowFoodCardLimit));
+        }
+        else {
+            return 280;
+        }
+    }
+
+    private int restaurantCardYPointCalc(int i){
+        return 600;
     }
 }
