@@ -29,16 +29,16 @@ public class Homepage {
 
         this.foods = foods;
         this.restaurants = restaurants;
+//
+//        // Iterate over all the foods
+//        for (int i = 0; i < this.foods.size(); i++) {
+//            List<JComponent> retrievedFoodComp = HomepaneComponents.getFoodCard(foods.get(i), this.foodCardXPointCalc(i), this.foodCardYPointCalc(i));
+//            foodsComponents.add(retrievedFoodComp);
+//        }
 
-        // Iterate over all the foods
-        for (int i = 0; i < this.foods.size(); i++) {
-            List<JComponent> retrievedFoodComp = HomepaneComponents.getFoodCard(foods.get(i), this.foodCardXPointCalc(i), this.foodCardYPointCalc(i));
-            foodsComponents.add(retrievedFoodComp);
-        }
-
-        // Iterate over all the foods
+        // Iterate over all the restaurants
         for (int i = 0; i < this.restaurants.size(); i++) {
-            List<JComponent> retrievedRest = HomepaneComponents.getRestaurantCard(restaurants.get(i), this.restaurantCardXPointCalc(i), this.restaurantCardYPointCalc(i));
+            List<JComponent> retrievedRest = HomepaneComponents.getRestaurantCard(restaurants.get(i), 150, this.restaurantCardYPointCalc(i));
             restaurantComponents.add(retrievedRest);
         }
 
@@ -188,27 +188,27 @@ public class Homepage {
         homeViewPane.add(searchButtonPanel);
 
 
-        /*
-        * Foods View
-        * */
-
-
-        JLabel foodTitleLabel = new JLabel("Food");
-        foodTitleLabel.setFont(foodTitleLabel.getFont().deriveFont(20f));
-        foodTitleLabel.setForeground(Color.black);
-        foodTitleLabel.setBounds(150, 230, 200, 40);
-        homeViewPane.add(foodTitleLabel);
-        addFoodToHomepane(homeViewPane);
+//        /*
+//        * Foods View
+//        * */
+//
+//
+//        JLabel foodTitleLabel = new JLabel("Food");
+//        foodTitleLabel.setFont(foodTitleLabel.getFont().deriveFont(20f));
+//        foodTitleLabel.setForeground(Color.black);
+//        foodTitleLabel.setBounds(150, 230, 200, 40);
+//        homeViewPane.add(foodTitleLabel);
+//        addFoodToHomepane(homeViewPane);
 
 
         /*
         * Restaurant view
         * */
-        JLabel restaurantTitle = new JLabel("Restaurant");
-        restaurantTitle.setFont(restaurantTitle.getFont().deriveFont(20f));
-        restaurantTitle.setForeground(Color.black);
-        restaurantTitle.setBounds(150, 550, 200, 40);
-        homeViewPane.add(restaurantTitle);
+//        JLabel restaurantTitle = new JLabel("Restaurant");
+//        restaurantTitle.setFont(restaurantTitle.getFont().deriveFont(20f));
+//        restaurantTitle.setForeground(Color.black);
+//        restaurantTitle.setBounds(150, 550, 200, 40);
+//        homeViewPane.add(restaurantTitle);
         addFoodToHomepane(homeViewPane);
 
         searchButton.addMouseListener(new MouseAdapter() {
@@ -219,6 +219,10 @@ public class Homepage {
 
                 removeAllFoodFromHomepane();
                 addFoodToHomepane(homeViewPane);
+
+                for (Food f : SessionManager.cart){
+                    System.out.println(f.name);
+                }
 
                 windowFrame.revalidate();
                 windowFrame.repaint();
@@ -244,12 +248,13 @@ public class Homepage {
     private void addFoodToHomepane(List<JComponent> homeViewPane) {
         if (searchFilteringText.isEmpty()) {
             // If no search text, add all food components
-            for (List<JComponent> foodComp : foodsComponents) {
-                for (JComponent foodC : foodComp) {
-                    windowFrame.add(foodC);
-                }
-            }
+//            for (List<JComponent> foodComp : foodsComponents) {
+//                for (JComponent foodC : foodComp) {
+//                    windowFrame.add(foodC);
+//                }
+//            }
 
+            //add restaurant component.
             for (List<JComponent> restComp : restaurantComponents) {
                 for (JComponent restC : restComp) {
                     windowFrame.add(restC);
@@ -257,14 +262,14 @@ public class Homepage {
             }
 
         } else {
-            // Otherwise, add only the food components that match the search text
-            for (int i = 0; i < foods.size(); i++) {
-                if (foods.get(i).name.contains(searchFilteringText)) {
-                    for (JComponent foodC : foodsComponents.get(i)) {
-                        windowFrame.add(foodC);
-                    }
-                }
-            }
+//            // Otherwise, add only the food components that match the search text
+//            for (int i = 0; i < foods.size(); i++) {
+//                if (foods.get(i).name.contains(searchFilteringText)) {
+//                    for (JComponent foodC : foodsComponents.get(i)) {
+//                        windowFrame.add(foodC);
+//                    }
+//                }
+//            }
 
             for (int i = 0; i < restaurants.size(); i++) {
                 if (restaurants.get(i).name.contains(searchFilteringText)) {
@@ -276,16 +281,6 @@ public class Homepage {
         }
     }
 
-    private int foodCardXPointCalc(int i){
-        if (i > perRowFoodCardLimit-1){
-            i = i-perRowFoodCardLimit;
-        }
-        return  150 * (i + 1) + (i * 20);
-    }
-
-    private int restaurantCardXPointCalc(int i){
-        return  150 +  (450 * i) + (i * 20);
-    }
 
     private int foodCardYPointCalc(int i){
         if (i > perRowFoodCardLimit-1){
@@ -297,6 +292,6 @@ public class Homepage {
     }
 
     private int restaurantCardYPointCalc(int i){
-        return 600;
+        return 200 + (i * 240);
     }
 }
