@@ -184,6 +184,23 @@ public class Homepage {
                 JTextField selectLocation = new JTextField();
                 JButton orderBtn = new JButton("Place Order");
 
+
+                orderBtn.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+
+                        Order order = OrderPlacingManager.placeOrder(locLabel.getText());
+                        if(order != null){
+                            JOptionPane.showMessageDialog(orderBtn, "Order Placed with OPT: " + order.otp + ". Please remember the otp.");
+                            SessionManager.cart = new ArrayList<>(); //clear the previously added items.
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(orderBtn, "Error Placing order. Please try again.");
+                        }
+                    }
+                });
+
                 JPanel rightPanel = new JPanel(new GridLayout(15, 1, 10, 10)); // Panel with GridLayout for location and order button
                 rightPanel.add(pricelabel);
                 rightPanel.add(emptyLabel1);
