@@ -1,15 +1,11 @@
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 
-
-public class Homepage {
-    private boolean cartPanelVisible = false;
-
+public class DriverHomepage {
     private JFrame windowFrame;
     private final int titlePanelHeight = 60;
     private int perRowFoodCardLimit = 8;
@@ -18,13 +14,12 @@ public class Homepage {
     List<Food> foods = new ArrayList<>();
     List<Restaurant> restaurants = new ArrayList<>();
 
-    private JPanel cartPanel;
     private List<JComponent> homeViewPane = new ArrayList<>();
     private java.util.List<JComponent> homepage_components = new ArrayList<>();
     private List<List<JComponent>> foodsComponents = new ArrayList<>();
     private List<List<JComponent>> restaurantComponents = new ArrayList<>();
 
-    public Homepage(JFrame frame){
+    public DriverHomepage(JFrame frame){
         this.windowFrame = frame;
     }
 
@@ -55,7 +50,9 @@ public class Homepage {
         homepage_components.addAll(titleComponents);
         homepage_components.add(title_panel);
 
+
         homepage_components.addAll(homeViewPane());
+
         return homepage_components;
     }
 
@@ -87,156 +84,6 @@ public class Homepage {
         JLabel viewCart = new JLabel();
         JLabel viewOrders = new JLabel();
         JButton changeToDriver = new JButton("Change To Drivers");
-
-        viewCart.setIcon(new ImageIcon(cartBox));
-        viewOrders.setIcon(new ImageIcon(ordersBox));
-
-
-        //Open Cart View
-        viewCart.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-
-                if(cartPanelVisible){
-                    cartPanelVisible = false;
-                    windowFrame.remove(cartPanel);
-                    windowFrame.revalidate();
-                    windowFrame.repaint();
-                    return;
-                }
-                cartPanelVisible = true;
-
-
-                // open cart view pane's code here.
-                cartPanel = new JPanel(new BorderLayout());
-                cartPanel.setBounds(100, titlePanelHeight + 30, GUIConfig.WINDOW_WIDTH - 200, GUIConfig.WINDOW_HEIGHT - titlePanelHeight - 30);
-
-                JLabel cartCloseButton = new JLabel("Back to home");
-                cartCloseButton.setIcon(new ImageIcon("icons/left-chevron.png"));
-                cartPanel.add(cartCloseButton, BorderLayout.NORTH); // Add close button to the north
-
-
-                JLabel cartLabel = new JLabel("Cart");
-                cartLabel.setFont(cartLabel.getFont().deriveFont(23f));
-                cartPanel.add(cartLabel, BorderLayout.NORTH); // Add cart label to the north
-
-                JTable cartTable = new JTable();
-                DefaultTableModel tableModel = new DefaultTableModel();
-
-
-                // Create the table columns
-                tableModel.addColumn("Food Name");
-                tableModel.addColumn("Price");
-                tableModel.addColumn("");
-
-                cartTable.setFont(cartLabel.getFont().deriveFont(15f));
-
-                JButton removeButton = new JButton("Remove");
-                removeButton.setOpaque(false);
-
-                for (Food orderedFood : SessionManager.cart) {
-                    Object[] rowData = {
-                            orderedFood.name,
-                            orderedFood.price,
-                            "Remove"
-                    };
-                    tableModel.addRow(rowData);
-                }
-
-                cartTable.setModel(tableModel);
-
-                DefaultTableCellRenderer buttonRenderer = new DefaultTableCellRenderer() {
-                    @Override
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                        if (value instanceof String && value.equals("Remove")) {
-                            return removeButton;
-                        }
-                        return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    }
-                };
-                cartTable.getColumnModel().getColumn(2).setCellRenderer(buttonRenderer);
-
-                // Add an action listener to the "Remove" button
-                removeButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        int selectedRow = cartTable.getSelectedRow();
-                        if (selectedRow >= 0) {
-                            Food foodToRemove = SessionManager.cart.get(selectedRow);
-                            SessionManager.cart.remove(foodToRemove);
-                            tableModel.removeRow(selectedRow);
-                            JOptionPane.showMessageDialog(removeButton, "Food " + foodToRemove.name + " has been removed from order." );
-                        }
-                    }
-                });
-
-
-                double foodPrice = 0;
-
-                for(Food food : SessionManager.cart){
-                    foodPrice += food.price;
-                }
-
-                JLabel pricelabel = new JLabel("Total cart value: " + String.valueOf(foodPrice));
-                JLabel emptyLabel1 = new JLabel("     ");
-                JLabel locLabel = new JLabel("Select delivery location");
-                JTextField selectLocation = new JTextField();
-                JButton orderBtn = new JButton("Place Order");
-
-                JPanel rightPanel = new JPanel(new GridLayout(15, 1, 10, 10)); // Panel with GridLayout for location and order button
-                rightPanel.add(pricelabel);
-                rightPanel.add(emptyLabel1);
-                rightPanel.add(locLabel);
-                rightPanel.add(selectLocation);
-                rightPanel.add(orderBtn);
-
-
-                JPanel rightPanelWrapper = new JPanel(new GridLayout(1, 2, 100, 100));
-
-
-                JPanel emptyPanel = new JPanel();
-                rightPanelWrapper.add(emptyPanel);
-                rightPanelWrapper.add(rightPanel);
-
-                JPanel mainPanel = new JPanel(new GridLayout(1, 2, 10, 10));
-                JScrollPane panelWithCartPanel = new JScrollPane(cartTable);
-
-                mainPanel.add(panelWithCartPanel, BorderLayout.CENTER);
-                mainPanel.add(rightPanelWrapper, BorderLayout.CENTER);
-
-                cartPanel.add(mainPanel, BorderLayout.CENTER);
-
-                windowFrame.add(cartPanel, 0);
-                windowFrame.revalidate();
-                windowFrame.repaint();
-
-                // remove all foods and restaurants and search bar.
-            }
-        });
-
-
-        //Open Orders view pane.
-        viewOrders.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-
-                //open orders view pane code here.
-            }
-
-        });
-
-
-        changeToDriver.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                assert user != null;
-                if(user.convertToDriver()){
-                    windowFrame.dispose();
-                }
-            }
-        });
 
 
         fullNameLabel.setFont(fullNameLabel.getFont().deriveFont(23f));
@@ -325,8 +172,8 @@ public class Homepage {
 
 
         /*
-        * Restaurant view
-        * */
+         * Restaurant view
+         * */
 //        JLabel restaurantTitle = new JLabel("Restaurant");
 //        restaurantTitle.setFont(restaurantTitle.getFont().deriveFont(20f));
 //        restaurantTitle.setForeground(Color.black);
@@ -415,6 +262,6 @@ public class Homepage {
     }
 
     private int restaurantCardYPointCalc(int i){
-        return 200 + (i * 270);
+        return 200 + (i * 240);
     }
 }

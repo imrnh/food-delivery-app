@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.List;
 
 public class Filereader {
     public static String readFile(String fileName) {
@@ -21,6 +22,20 @@ public class Filereader {
         }
         return fileContentString.toString();
     }
+
+    public static List<String> readFileLine(String fileName) {
+        java.util.List<String> fileLine = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                fileLine.add(line);
+            }
+        } catch (IOException e) {
+            System.out.println("File reading error: " + e.getMessage());
+        }
+        return fileLine;
+    }
+
 
     public static void fileWrite(String fileName, String content) {
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName, true)))) {

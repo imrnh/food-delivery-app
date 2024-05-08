@@ -3,7 +3,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 public class Main {
-    static boolean isLoggedIn = true;
+    static boolean isLoggedIn = false;
     static JFrame frame;
     static Runner runner;
     static User user;
@@ -25,9 +25,9 @@ public class Main {
     private static void windowManager(){
 
         //dummy code. to stop signup page all the time.
-        user = new Customer();
-        user.register(1000, "Imran Hossen", "m@gm", "pass");
-        SessionManager.user = user;
+//        user = new Customer();
+//        user.register(1000, "Imran Hossen", "m@gm", "pass");
+//        SessionManager.user = user;
 
 
         if (isLoggedIn && user != null){
@@ -132,15 +132,17 @@ public class Main {
                 User validatedUser = runner.loginUser(email, password);
 
                 if(validatedUser != null){
+                    SessionManager.user = validatedUser;
+                    user = validatedUser;
+                    isLoggedIn = true;
+
                     //remove all login components.
                     for (JComponent component : loginComponents) {
                         frame.remove(component);
                     }
                     frame.repaint();
 
-                    isLoggedIn = true;
                     windowManager();
-                    SessionManager.user = validatedUser;
                 }
                 else{
                     JOptionPane.showMessageDialog(frame, "Invalid username or password");

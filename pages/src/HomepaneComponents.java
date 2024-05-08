@@ -40,7 +40,7 @@ public class HomepaneComponents {
         JLabel addToCartButton = new JLabel("Buy");
         addToCartButton.setBounds(x + 175, y + 100,  110, 25);
         addToCartButton.setBackground(Color.orange);
-        addToCartButton.setIcon(new ImageIcon("icons/trolley.png"));
+        addToCartButton.setIcon(new ImageIcon("icons/add-to-cart.png"));
 
 //        ratingLabel.setBounds(x + 300 - 50, y + 110, 30, 25);
 //        ratingImageLabel.setBounds(x + 300 - 20, y + 110,  15, 25);
@@ -83,6 +83,11 @@ public class HomepaneComponents {
         nameLabel.setBounds(x + 15, y + 10, 500, 30);
         nameLabel.setFont(nameLabel.getFont().deriveFont(17f));
 
+        JLabel locationLabel = new JLabel( " " + restaurant.location);
+        locationLabel.setIcon(new ImageIcon("icons/placeholder.png"));
+        locationLabel.setBounds(x + 600, y + 10, 430, 25);
+        locationLabel.setFont(nameLabel.getFont().deriveFont(12f));
+
         JLabel ratingLabel = new JLabel(String.valueOf(rating));
         JLabel ratingImageLabel = new JLabel(new ImageIcon("icons/star.png"));
         JLabel reviewButton = new JLabel("Show Reviews");
@@ -91,26 +96,21 @@ public class HomepaneComponents {
         JLabel writeAReviewButton = new JLabel("Write a Review");
         writeAReviewButton.setFont(reviewButton.getFont().deriveFont(11f));
 
-        ratingLabel.setBounds(x + 650, y + 10, 30, 25);
-        ratingImageLabel.setBounds(x + 680, y + 10,  15, 25);
-        reviewButton.setBounds(x + 710, y + 5,  123, 25);
-        writeAReviewButton.setBounds(x + 710, y + 22,  123, 25);
+        ratingLabel.setBounds(x + 1050, y + 10, 30, 25);
+        ratingImageLabel.setBounds(x + 1080, y + 10,  15, 25);
+        reviewButton.setBounds(x + 1110, y + 10,  123, 25);
+        writeAReviewButton.setBounds(x + 1225, y + 10,  123, 25);
         ratingLabel.setFont(nameLabel.getFont().deriveFont(12f));
 
 
-        JLabel locationLabel = new JLabel( " " + restaurant.location);
-        locationLabel.setIcon(new ImageIcon("icons/placeholder.png"));
-        locationLabel.setBounds(x + 900, y + 10, 430, 25);
-        locationLabel.setFont(nameLabel.getFont().deriveFont(12f));
-
         JPanel seperatorLine = new JPanel();
-        seperatorLine.setBounds(x + 10, y+50, GUIConfig.WINDOW_WIDTH-300, 1);
-        seperatorLine.setBackground(Color.gray);
+        seperatorLine.setBounds(x + 10, y+45, GUIConfig.WINDOW_WIDTH-250, 1);
+        seperatorLine.setBackground(Color.getHSBColor(217, 1, 98));
 
 
         //add food cards to the restaurant.
         for (int i=0; i<restaurant.foods.size(); i++) {
-            foodsComponents.add(HomepaneComponents.getFoodCard(restaurant.foods.get(i), x+15 + (i * 320), y+70));
+            foodsComponents.add(HomepaneComponents.getFoodCard(restaurant.foods.get(i), x+15 + (i * 320), y+50));
         }
 
 
@@ -190,8 +190,6 @@ public class HomepaneComponents {
         restaurantCardComponent.add(ratingImageLabel);
         restaurantCardComponent.add(reviewButton);
         restaurantCardComponent.add(writeAReviewButton);
-        restaurantCardComponent.add(seperatorLine);
-
         for(java.util.List<JComponent> foodCard: foodsComponents){
             restaurantCardComponent.addAll(foodCard);
         }

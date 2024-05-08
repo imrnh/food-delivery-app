@@ -50,13 +50,7 @@ public class Runner{
         User newUser = new Customer();
 
         //find the current maximum id.
-        int currMaxId = 0;
-        
-        for (User usr : users) {
-            if (currMaxId < usr.getId()){
-                currMaxId = usr.getId();
-            }
-        } 
+        int currMaxId = Filereader.readFileLine("user.txt").size() + 1;
 
         //check name, email, password null or not.
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()){
@@ -68,13 +62,29 @@ public class Runner{
 
         SessionManager.user = newUser;
 
+        //write to file.
+        Filereader.fileWrite("user.txt", String.valueOf(currMaxId + 1) + "--" + name + "--" + email + "--" + password + "--" + "customer");
+
         return "User created successfully.";
     }
 
     public User loginUser(String email, String password) {
-        for (User usr : users) {
-            if (usr.getEmail().equals(email) && usr.getPassword().equals(password)) {
-                return usr;
+        List<String> fileLines = Filereader.readFileLine("user.txt");
+        for (String fl : fileLines) {
+
+            System.out.println(fl);
+            String userData[] = fl.split("--");
+            String fileEmail =userData[2];
+            String filePassword = userData[3];
+
+            if (fileEmail.equals(email) && filePassword.equals(password)){
+                //make a new user.
+                if (userData[4].equals("customer")){
+                    //create customer
+                    User vUser = new Customer(Integer.parseInt(userData[0]), userData[1], userData[2], userData[3]);
+                    SessionManager.user = vUser;
+                    return vUser;
+                }
             }
         }
         return null;
