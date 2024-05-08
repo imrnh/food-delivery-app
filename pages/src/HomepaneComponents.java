@@ -51,7 +51,7 @@ public class HomepaneComponents {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 SessionManager.cart.add(food);
-                JOptionPane.showMessageDialog(addToCartButton, food.name + " added to cart", "Cart", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(addToCartButton, food.name + " added to cart.\nClick cart icon to view or complete order", "Cart", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -129,7 +129,6 @@ public class HomepaneComponents {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
 
                 JFrame reviewFrame = new JFrame();
 

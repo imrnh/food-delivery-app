@@ -3,21 +3,45 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+
+class MaxWidthJPanel extends JPanel {
+    private int maxWidth;
+
+
+    public MaxWidthJPanel(int maxWidth) {
+        this.maxWidth = maxWidth;
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        Dimension preferredSize = super.getPreferredSize();
+        int width = Math.min(preferredSize.width, maxWidth);
+        return new Dimension(width, preferredSize.height);
+    }
+
+    // Other customizations and components can be added here
+}
 
 public class Homepage {
+    private boolean cartPanelVisible = false;
 
     private JFrame windowFrame;
+    private final int titlePanelHeight = 60;
     private int visiblePane = 1; //1 = home pane, 2= search pane, 3 = restaurant view pane, 4 = food view pane
-    private java.util.List<JComponent> homepage_components = new ArrayList<>();
+    private int perRowFoodCardLimit = 8;
+    String searchFilteringText = "";
 
     List<Food> foods = new ArrayList<>();
     List<Restaurant> restaurants = new ArrayList<>();
+
+    private JPanel cartPanel;
+    private List<JComponent> homeViewPane = new ArrayList<>();
+    private java.util.List<JComponent> homepage_components = new ArrayList<>();
     private List<List<JComponent>> foodsComponents = new ArrayList<>();
     private List<List<JComponent>> restaurantComponents = new ArrayList<>();
-
-    private int perRowFoodCardLimit = 8;
-
-    String searchFilteringText = "";
 
     public Homepage(JFrame frame){
         this.windowFrame = frame;
@@ -44,7 +68,7 @@ public class Homepage {
 
         //Adding the top bar. It is global to all the pane in customer page.
         JPanel title_panel = new JPanel();
-        title_panel.setBounds(0, 0, GUIConfig.WINDOW_WIDTH, 60);
+        title_panel.setBounds(0, 0, GUIConfig.WINDOW_WIDTH, titlePanelHeight);
         title_panel.setBackground(Color.white);
         java.util.List<JComponent> titleComponents = getTitleComponents(user);
         homepage_components.addAll(titleComponents);
@@ -94,15 +118,130 @@ public class Homepage {
         viewCart.setIcon(new ImageIcon(cartBox));
         viewOrders.setIcon(new ImageIcon(ordersBox));
 
+
         //Open Cart View
         viewCart.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
-                //open cart view pane's code here.
+                if(cartPanelVisible){
+                    cartPanelVisible = false;
+                    windowFrame.remove(cartPanel);
+                    windowFrame.revalidate();
+                    windowFrame.repaint();
+                    return;
+                }
+                cartPanelVisible = true;
+
+
+                // open cart view pane's code here.
+                cartPanel = new JPanel(new BorderLayout());
+                cartPanel.setBounds(100, titlePanelHeight + 30, GUIConfig.WINDOW_WIDTH - 200, GUIConfig.WINDOW_HEIGHT - titlePanelHeight - 30);
+
+                JLabel cartCloseButton = new JLabel("Back to home");
+                cartCloseButton.setIcon(new ImageIcon("icons/left-chevron.png"));
+                cartPanel.add(cartCloseButton, BorderLayout.NORTH); // Add close button to the north
+
+
+                JLabel cartLabel = new JLabel("Cart");
+                cartLabel.setFont(cartLabel.getFont().deriveFont(23f));
+                cartPanel.add(cartLabel, BorderLayout.NORTH); // Add cart label to the north
+
+                JTable cartTable = new JTable();
+                DefaultTableModel tableModel = new DefaultTableModel();
+
+
+                // Create the table columns
+                tableModel.addColumn("Food Name");
+                tableModel.addColumn("Price");
+                tableModel.addColumn("");
+
+                cartTable.setFont(cartLabel.getFont().deriveFont(15f));
+
+                JButton removeButton = new JButton("Remove");
+                removeButton.setOpaque(false);
+
+                for (Food orderedFood : SessionManager.cart) {
+                    Object[] rowData = {
+                            orderedFood.name,
+                            orderedFood.price,
+                            "Remove"
+                    };
+                    tableModel.addRow(rowData);
+                }
+
+                cartTable.setModel(tableModel);
+
+                DefaultTableCellRenderer buttonRenderer = new DefaultTableCellRenderer() {
+                    @Override
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                        if (value instanceof String && value.equals("Remove")) {
+                            return removeButton;
+                        }
+                        return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    }
+                };
+                cartTable.getColumnModel().getColumn(2).setCellRenderer(buttonRenderer);
+
+                // Add an action listener to the "Remove" button
+                removeButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int selectedRow = cartTable.getSelectedRow();
+                        if (selectedRow >= 0) {
+                            Food foodToRemove = SessionManager.cart.get(selectedRow);
+                            SessionManager.cart.remove(foodToRemove);
+                            tableModel.removeRow(selectedRow);
+                            JOptionPane.showMessageDialog(removeButton, "Food " + foodToRemove.name + " has been removed from order." );
+                        }
+                    }
+                });
+
+
+                double foodPrice = 0;
+
+                for(Food food : SessionManager.cart){
+                    foodPrice += food.price;
+                }
+
+                JLabel pricelabel = new JLabel("Total cart value: " + String.valueOf(foodPrice));
+                JLabel emptyLabel1 = new JLabel("     ");
+                JLabel locLabel = new JLabel("Select delivery location");
+                JTextField selectLocation = new JTextField();
+                JButton orderBtn = new JButton("Place Order");
+
+                JPanel rightPanel = new JPanel(new GridLayout(15, 1, 10, 10)); // Panel with GridLayout for location and order button
+                rightPanel.add(pricelabel);
+                rightPanel.add(emptyLabel1);
+                rightPanel.add(locLabel);
+                rightPanel.add(selectLocation);
+                rightPanel.add(orderBtn);
+
+
+                JPanel rightPanelWrapper = new JPanel(new GridLayout(1, 2, 100, 100));
+
+                MaxWidthJPanel maxWidthPanel = new MaxWidthJPanel(50);
+                JPanel emptyPanel = new JPanel();
+                rightPanelWrapper.add(maxWidthPanel);
+                rightPanelWrapper.add(rightPanel);
+
+                JPanel mainPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+                JScrollPane panelWithCartPanel = new JScrollPane(cartTable);
+
+                mainPanel.add(panelWithCartPanel, BorderLayout.CENTER);
+                mainPanel.add(rightPanelWrapper, BorderLayout.CENTER);
+
+                cartPanel.add(mainPanel, BorderLayout.CENTER);
+
+                windowFrame.add(cartPanel, 0);
+                windowFrame.revalidate();
+                windowFrame.repaint();
+
+                // remove all foods and restaurants and search bar.
             }
         });
+
 
         //Open Orders view pane.
         viewOrders.addMouseListener(new MouseAdapter() {
@@ -150,7 +289,7 @@ public class Homepage {
 
 
     private java.util.List<JComponent> homeViewPane(){
-        List<JComponent> homeViewPane = new ArrayList<>();
+        homeViewPane = new ArrayList<>();
 
         //Search bar
         JPanel serachIconPanel = new JPanel(); //just to add white box below the search icon. JLabel doesn't have background.

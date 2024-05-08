@@ -8,4 +8,5 @@ public class SessionManager {
     static List<Restaurant> restaurantList = new ArrayList<>();
     static JFrame frame;
     static List<Food> cart = new ArrayList<>();
+
 }
