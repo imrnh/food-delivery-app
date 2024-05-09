@@ -45,7 +45,6 @@ public class DriverHomepage {
             String orderLineSplitted[] = orderLine.split("--");
             if(orderLineSplitted[2].equals(String.valueOf(user.userID))){
                 myDeliveryList.add(new Delivery(orderLineSplitted[6], new Order(Integer.parseInt(orderLineSplitted[0]), Integer.parseInt(orderLineSplitted[1]), Integer.parseInt(orderLineSplitted[2]), Integer.parseInt(orderLineSplitted[3]), Double.parseDouble(orderLineSplitted[5]), 1, orderLineSplitted[4])));
-                System.out.println("My delivery size is: " + myDeliveryList.size());
                 trackDelvLine.add(fileLineNumber); //track file's line number.
 
                 if(orderLineSplitted[3].equals(String.valueOf("2"))){ //completed order, add 10% as earned.
@@ -205,7 +204,6 @@ public class DriverHomepage {
                     }
 
                     FileOps.lineRemover("orders.txt", trackDelvLine.get(delvCompIdx) + 1);
-                    System.out.println("Line found:" + trackDelvLine.get(delvCompIdx));
 
                     Order theOrderWas = delivery.getOrder();
                     theOrderWas.orderStatus = 2;
@@ -221,6 +219,8 @@ public class DriverHomepage {
                         @Override
                         public void run() {
                             JOptionPane.showMessageDialog(whitePanel, "Order Confirmed");
+
+                            totalEarned += delivery.getOrder().orderCost * 0.1;
 
                             // Remove and rebuild the delivery card components
                             for (List<JComponent> delvCompList : deliverCardComponents) {
