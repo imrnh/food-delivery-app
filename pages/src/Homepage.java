@@ -190,7 +190,7 @@ public class Homepage {
                     public void mouseClicked(MouseEvent e) {
                         super.mouseClicked(e);
 
-                        Order order = OrderPlacingManager.placeOrder(locLabel.getText());
+                        Order order = OrderPlacingManager.placeOrder(selectLocation.getText());
                         if(order != null){
                             JOptionPane.showMessageDialog(orderBtn, "Order Placed with OPT: " + order.otp + ". Please remember the otp.");
                             SessionManager.cart = new ArrayList<>(); //clear the previously added items.

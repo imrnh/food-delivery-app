@@ -71,20 +71,25 @@ public class Runner{
     public User loginUser(String email, String password) {
         List<String> fileLines = Filereader.readFileLine("user.txt");
         for (String fl : fileLines) {
-
-            System.out.println(fl);
             String userData[] = fl.split("--");
             String fileEmail =userData[2];
             String filePassword = userData[3];
 
             if (fileEmail.equals(email) && filePassword.equals(password)){
                 //make a new user.
+                User vUser = new Customer(Integer.parseInt(userData[0]), userData[1], userData[2], userData[3]);
+
                 if (userData[4].equals("customer")){
                     //create customer
-                    User vUser = new Customer(Integer.parseInt(userData[0]), userData[1], userData[2], userData[3]);
-                    SessionManager.user = vUser;
-                    return vUser;
+                    vUser.userType = 1;
+                } else if (userData[4].equals("driver")) {
+                    vUser.userType = 2;
                 }
+
+                SessionManager.user = vUser;
+
+                return vUser;
+
             }
         }
         return null;

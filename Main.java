@@ -14,6 +14,8 @@ public class Main {
         runner = new Runner();
         SessionManager.frame = frame;
 
+        runner.createRestaurants();
+
         windowManager();
 
         frame.setSize(GUIConfig.WINDOW_WIDTH,GUIConfig.WINDOW_HEIGHT);//400 width and 500 height
@@ -154,9 +156,6 @@ public class Main {
 
     //Customer pages
     private static void customerScreenManager(){
-        //create all the restaurants in memory.
-        runner.createRestaurants();
-
         Homepage homepage = new Homepage(frame);
         java.util.List<JComponent> homepageComponents = homepage.getHomepage(runner.foods, runner.restaurants);
 
@@ -167,5 +166,13 @@ public class Main {
     }
 
     //Driver pages
-    private static void driverScreenManager(){}
+    private static void driverScreenManager(){
+        DriverHomepage driverHomepage = new DriverHomepage(frame);
+        java.util.List<JComponent> homepageComponents = driverHomepage.getHomepage();
+
+        for (JComponent component : homepageComponents) {
+            frame.add(component);
+        }
+        frame.repaint();
+    }
 }

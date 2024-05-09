@@ -19,13 +19,13 @@ public class OrderPlacingManager {
             String ul[] = uInfo.split("--");
 
             if(ul[4].equals("driver")){
-                driverIDs.add(ul[0]);
+                driverIDs.add(ul[2]);
             }
         }
 
         //check if driver id belong to any driver currently delivering.
-        //Orders.txt structure->  order_id--driver_id--order_Status--otp--price--deliveryLoc--foods comma seperated: Food 1, Food 2, etc.
-        List<String> currOrdersList = new ArrayList<>();
+        //Orders.txt structure->  order_id--user_id--driver_id--order_Status--otp--price--deliveryLoc--foods comma seperated: Food 1, Food 2, etc.
+        List<String> currOrdersList = Filereader.readFileLine("orders.txt");
         for(String orderLine : currOrdersList){
             String orderInfo[] = orderLine.split("--");
             driverIDs.remove(driverIDs.indexOf(orderInfo[1]));
@@ -39,10 +39,10 @@ public class OrderPlacingManager {
         }
 
         int orderStatus = 1; //active.
-        Order order = new Order(orderNumber, Integer.parseInt(driverIDs.getFirst()), 1, price, 1, otp);
+        Order order = new Order(orderNumber, SessionManager.user.getId() ,Integer.parseInt(driverIDs.getFirst()), 1, price, 1, otp);
 
         //write file.
-        Filereader.fileWrite("orders.txt", String.valueOf(orderNumber) + "--" + driverIDs.getFirst() + "--" +  String.valueOf(1) + "--" + otp + "--"  + String.valueOf(price) + "--" + deliveryLoc + "--" + foodNames );
+        Filereader.fileWrite("orders.txt", String.valueOf(orderNumber) + "--" + SessionManager.user.getId() + "--" + driverIDs.getFirst() + "--" +  String.valueOf(orderStatus) + "--" + otp + "--"  + String.valueOf(price) + "--" + deliveryLoc + "--" + foodNames );
 
         return order;
     }

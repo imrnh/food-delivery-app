@@ -14,8 +14,6 @@ public class HomepaneComponents {
     public static java.util.List<JComponent> getFoodCard(Food food, int x, int y){
         java.util.List<JComponent> foodCardComponents = new ArrayList<>();
 
-        double rating = 4.5; //fetch rating from db with food id.
-
         JPanel foodCardPanel = new JPanel();
         foodCardPanel.setBounds(x, y, 310, 160);
         foodCardPanel.setBackground(Color.white);
@@ -33,19 +31,11 @@ public class HomepaneComponents {
         JLabel priceLabel = new JLabel(String.valueOf(food.price) + " $");
         priceLabel.setBounds(x + 175, y + 40, 100, 25);
         priceLabel.setFont(nameLabel.getFont().deriveFont(12f));
-//
-//        JLabel ratingLabel = new JLabel(String.valueOf(rating));
-//        JLabel ratingImageLabel = new JLabel(new ImageIcon("icons/star.png"));
 
         JLabel addToCartButton = new JLabel("Buy");
         addToCartButton.setBounds(x + 175, y + 100,  110, 25);
         addToCartButton.setBackground(Color.orange);
         addToCartButton.setIcon(new ImageIcon("icons/add-to-cart.png"));
-
-//        ratingLabel.setBounds(x + 300 - 50, y + 110, 30, 25);
-//        ratingImageLabel.setBounds(x + 300 - 20, y + 110,  15, 25);
-//        ratingLabel.setFont(nameLabel.getFont().deriveFont(12f));
-
         addToCartButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -59,8 +49,6 @@ public class HomepaneComponents {
         foodCardComponents.add(imageLabel);
         foodCardComponents.add(nameLabel);
         foodCardComponents.add(priceLabel);
-//        foodCardComponents.add(ratingLabel);
-//        foodCardComponents.add(ratingImageLabel);
         foodCardComponents.add(addToCartButton);
         foodCardComponents.add(foodCardPanel);
 
@@ -72,12 +60,6 @@ public class HomepaneComponents {
         java.util.List<java.util.List<JComponent>> foodsComponents = new ArrayList<>();
 
         double rating = 4.5; //fetch rating from db with food id.
-
-//        JPanel foodCardPanel = new JPanel();
-//        foodCardPanel.setBounds(x, y, 450, 150);
-//        foodCardPanel.setBackground(Color.white);
-//        foodCardPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // Use FlowLayout
-
 
         JLabel nameLabel = new JLabel(restaurant.name);
         nameLabel.setBounds(x + 15, y + 10, 500, 30);
@@ -164,8 +146,6 @@ public class HomepaneComponents {
                         //write rewivew text to restaurant_id.txt
                         Filereader.fileWrite("reviews/restaurant_" + restaurant.getId() + ".txt",  rtField.getText() + "\n \n \n");
                         Filereader.fileWrite("reviews/ratings.txt", restaurant.getId() + "--"  + dummyField.getText());
-
-//                        reviewFrame.dispose();
                     }
                 });
 
@@ -193,8 +173,6 @@ public class HomepaneComponents {
         for(java.util.List<JComponent> foodCard: foodsComponents){
             restaurantCardComponent.addAll(foodCard);
         }
-
-//        restaurantCardComponent.add(foodCardPanel);
 
         return restaurantCardComponent;
     }
