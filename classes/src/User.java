@@ -23,8 +23,9 @@ public abstract class User{
         int lineNumber = 0;
 
         for(String line : userCredLines){
+            System.out.println(line);
             String creds[] = line.split("--");
-            if(creds[0].equals("userID") && creds[2].equals(email) && creds[3].equals(password) && creds[4].equals("driver")){
+            if(creds[0].equals(String.valueOf(this.userID)) && creds[2].equals(email) && creds[3].equals(password) && creds[4].equals("driver")){
                 fileWrite("user.txt",String.valueOf(this.userID) + "--" + name + "--" + email + "--" + password + "--" + "customer");
                 FileOps.lineRemover("user.txt", lineNumber + 1);
                 return true;
