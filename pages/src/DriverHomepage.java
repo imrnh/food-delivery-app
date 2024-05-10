@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.URL;
 import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.List;
@@ -171,8 +172,9 @@ public class DriverHomepage {
             dVCard.add(imageLabel);
 
             // Load and set an image
+            downloadMapWithAddress(delivery.getAddress());
             try {
-                BufferedImage image = ImageIO.read(new File("images/maps/map2.png"));
+                BufferedImage image = ImageIO.read(new File("images/location_image.jpg"));
                 ImageIcon icon = new ImageIcon(image);
                 imageLabel.setIcon(icon);
             } catch (IOException e) {
@@ -253,32 +255,33 @@ public class DriverHomepage {
         }
 
 
-//        //google map view
-//        try {
-        //this url should be api url.
-//            String imageUrl = "https://www.google.com/maps/place/New+York,+NY,+USA/@40.6976307,-74.1448306,11z/data=!3m1!4b1!4m6!3m5!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62!8m2!3d40.7127753!4d-74.0059728!16zL20vMDJfMjg2?entry=ttu";
-//            String destinationFile = "image.jpg";
-//            String str = destinationFile;
-//            URL url = new URL(imageUrl);
-//            InputStream is = url.openStream();
-//            OutputStream os = new FileOutputStream(destinationFile);
-//
-//            byte[] b = new byte[2048];
-//            int length;
-//
-//            while ((length = is.read(b)) != -1) {
-//                os.write(b, 0, length);
-//            }
-//
-//            is.close();
-//            os.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            System.exit(1);
-//        }
-//
-//        dVCard.add(new JLabel(new ImageIcon((new ImageIcon("image.jpg")).getImage().getScaledInstance(630, 600,
-//                java.awt.Image.SCALE_SMOOTH))));
+
+        //google map view
+        try {
+            // this url should be api url.
+            String imageUrl = "https://www.google.com/maps/place/New+York,+NY,+USA/@40.6976307,-74.1448306,11z/data=!3m1!4b1!4m6!3m5!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62!8m2!3d40.7127753!4d-74.0059728!16zL20vMDJfMjg2?entry=ttu";
+            String destinationFile = "image.jpg";
+            String str = destinationFile;
+            URL url = new URL(imageUrl);
+            InputStream is = url.openStream();
+            OutputStream os = new FileOutputStream(destinationFile);
+
+            byte[] b = new byte[2048];
+            int length;
+
+            while ((length = is.read(b)) != -1) {
+                os.write(b, 0, length);
+            }
+
+            is.close();
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        dVCard.add(new JLabel(new ImageIcon((new ImageIcon("image.jpg")).getImage().getScaledInstance(630, 600,
+                java.awt.Image.SCALE_SMOOTH))));
 
 
         JLabel orderValue = new JLabel("Price: " + String.valueOf(delivery.getOrder().orderCost) + " USD");
@@ -316,6 +319,35 @@ public class DriverHomepage {
             System.out.println("Content added to the file successfully.");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    public static void downloadMapWithAddress(String address){
+        try {
+
+            String API_KEY = "AIzaSyDtf_GHR8n_rFsWuRdNM1XAI8HS-qQZ8G4";
+
+            String apiUrl = "https://maps.googleapis.com/maps/api/staticmap?center=" + address.replace(" ", "+")
+                    + "&zoom=15&size=800x600&markers=color:red%7C" + address.replace(" ", "+") + "&key=+" + API_KEY;
+
+            String destinationFile = "images/location_image.jpg";
+            URL url = new URL(apiUrl);
+            InputStream is = url.openStream();
+            OutputStream os = new FileOutputStream(destinationFile);
+
+            byte[] b = new byte[2048];
+            int length;
+
+            while ((length = is.read(b)) != -1) {
+                os.write(b, 0, length);
+            }
+
+            is.close();
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 
