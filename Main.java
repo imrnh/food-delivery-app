@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         frame =new JFrame();
-        runner = new Runner();
+        runner = Runner.getRunner();
         SessionManager.frame = frame;
 
         runner.createRestaurants();

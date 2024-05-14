@@ -14,14 +14,18 @@ public class OrderPlacingManager {
         //randomly pick a driver. Read user.txt and file all the drivers. Then iteratively check the the user is driver, then if the driver id is in the orders.txt with order being held?
         List<String> userInformations = Filereader.readFileLine("user.txt");
 
+
+
+
         List<String> driverIDs = new ArrayList<>();
         for(String uInfo: userInformations){
             String ul[] = uInfo.split("--");
 
             if(ul[4].equals("driver")){
-                driverIDs.add(ul[2]);
+                driverIDs.add(ul[0]);
             }
         }
+
 
         //check if driver id belong to any driver currently delivering.
         //Orders.txt structure->  order_id--user_id--driver_id--order_Status--otp--price--deliveryLoc--foods comma seperated: Food 1, Food 2, etc.

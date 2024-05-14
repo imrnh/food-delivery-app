@@ -6,6 +6,14 @@ public class Runner{
     public List<Restaurant> restaurants = new ArrayList<>();
     public List<Food> foods = new ArrayList<>();
 
+    private Runner(){
+
+    }
+
+    public static Runner getRunner(){
+        return new Runner();
+    }
+
     public void createFoods(){
         foods.add(new Food(1, "Food 1", 9.59, "images/f1.png"));
         foods.add(new Food(2, "Food 2", 13.00, "images/f2.png"));
