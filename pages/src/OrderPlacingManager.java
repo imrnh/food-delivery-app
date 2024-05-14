@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Random;
 
 public class OrderPlacingManager {
-    public static Order placeOrder(String deliveryLoc){
+    public static Order placeOrder(String deliveryLoc, double amount, String cardNumber, String cvc, String cardExpireDate){
         List<Food> foods = SessionManager.cart;
 
         //generate OTP.
@@ -44,6 +44,21 @@ public class OrderPlacingManager {
 
         int orderStatus = 1; //active.
         Order order = new Order(orderNumber, SessionManager.user.getId() ,Integer.parseInt(driverIDs.getFirst()), 1, price, 1, otp);
+
+
+        Random random = new Random();
+
+        // Generate a random integer between 0 (inclusive) and 10 (exclusive)
+        int paymentId = random.nextInt(-100 + 10000 + 1) + 100; ///max - min + 1
+        Payment payment = new Payment(paymentId, order.orderID, amount);
+
+        try{
+            payment.paymentProcessor();
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
         //write file.
         Filereader.fileWrite("orders.txt", String.valueOf(orderNumber) + "--" + SessionManager.user.getId() + "--" + driverIDs.getFirst() + "--" +  String.valueOf(orderStatus) + "--" + otp + "--"  + String.valueOf(price) + "--" + deliveryLoc + "--" + foodNames );
