@@ -1,6 +1,1 @@
-2--3--11--1--874670--24.880000000000003--Select delivery location--Food 3, Food 5,
-4--4--6--1--267606--24.880000000000003--Select delivery location--Food 3, Food 5,
-0--0--5--2--959193--12.55--Food 3,--Food Names Hidden
-5--5--5--2--320593--9.59--Select delivery location--Food Names Hidden
-6--6--5--2--362311--25.33--Select delivery location--Food Names Hidden
-3--2--5--2--834921--33.230000000000004--Food 3, Food 1, Food 4,--Food Names Hidden
+0--2--3--2--940897--25.33--Dhanmondhi Lake, Dhaka - 1209, Bangladesh--Food Names Hidden

@@ -182,15 +182,31 @@ public class Homepage {
                 JLabel emptyLabel1 = new JLabel("     ");
                 JLabel locLabel = new JLabel("Select delivery location");
                 JTextField selectLocation = new JTextField();
-                JButton orderBtn = new JButton("Place Order");
+
+                JLabel paymentLabel = new JLabel("Payment Information");
+                paymentLabel.setFont(paymentLabel.getFont().deriveFont(20f));
+
+                JLabel cardNumberLabel = new JLabel("Card number");
+                JTextField cardNumber = new JTextField();
+
+                JLabel cvcLabel = new JLabel("CVC");
+                JTextField cvcNumber = new JTextField();
+
+                JLabel cardExpireLabel = new JLabel("Card expiration date");
+                JTextField cardExpireTime = new JTextField();
 
 
+                JButton orderBtn = new JButton("Pay with Stripe");
+
+
+                double finalFoodPrice = foodPrice;
                 orderBtn.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         super.mouseClicked(e);
 
-                        Order order = OrderPlacingManager.placeOrder(selectLocation.getText());
+                        Order order = OrderPlacingManager.placeOrder(selectLocation.getText(), finalFoodPrice, cardNumber.getText(), cvcNumber.getText(), cardExpireTime.getText());
+
                         if(order != null){
                             JOptionPane.showMessageDialog(orderBtn, "Order Placed with OPT: " + order.otp + ". Please remember the otp.");
                             SessionManager.cart = new ArrayList<>(); //clear the previously added items.
@@ -201,15 +217,26 @@ public class Homepage {
                     }
                 });
 
+
+
+
+
                 JPanel rightPanel = new JPanel(new GridLayout(15, 1, 10, 10)); // Panel with GridLayout for location and order button
                 rightPanel.add(pricelabel);
                 rightPanel.add(emptyLabel1);
                 rightPanel.add(locLabel);
                 rightPanel.add(selectLocation);
+                rightPanel.add(paymentLabel);
+                rightPanel.add(cardNumberLabel);
+                rightPanel.add(cardNumber);
+                rightPanel.add(cvcLabel);
+                rightPanel.add(cvcNumber);
+                rightPanel.add(cardExpireLabel);
+                rightPanel.add(cardExpireTime);
                 rightPanel.add(orderBtn);
 
 
-                JPanel rightPanelWrapper = new JPanel(new GridLayout(1, 2, 100, 100));
+                JPanel rightPanelWrapper = new JPanel(new GridLayout(1, 15, 100, 100));
 
 
                 JPanel emptyPanel = new JPanel();
